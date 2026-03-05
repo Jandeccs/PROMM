@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prom Date?</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    text-align:center;
+    background:#ffb6c1;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    padding:20px;
+}
+
+h1{
+    font-size:8vw;
+    color:white;
+    text-shadow:2px 2px 6px #ff69b4;
+}
+
+#message{
+    font-size:6vw;
+    color:white;
+    max-width:90%;
+}
+
+.buttons{
+    margin-top:30px;
+    display:flex;
+    gap:20px;
+}
+
+button{
+    padding:14px 24px;
+    font-size:5vw;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#yes{
+    background:#ff4d6d;
+    color:white;
+}
+
+#no{
+    background:#888;
+    color:white;
+}
+
+.heart{
+    position:absolute;
+    font-size:20px;
+    animation:floatUp 6s linear infinite;
+}
+
+@keyframes floatUp{
+    0%{transform:translateY(100vh); opacity:1;}
+    100%{transform:translateY(-10vh); opacity:0;}
+}
+
+.confetti{
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:yellow;
+    animation:confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall{
+    0%{
+        transform:translateY(-100px) rotate(0deg);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+.explodeHeart{
+    position:absolute;
+    font-size:22px;
+    animation:explode 1s forwards;
+}
+
+@keyframes explode{
+    0%{transform:scale(0);}
+    100%{transform:translate(var(--x),var(--y)) scale(1.5); opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1 id="message"></h1>
+
+<div class="buttons">
+<button id="yes" onclick="yesAnswer()">Yes ❤️</button>
+<button id="no" onclick="noAnswer()">No</button>
+</div>
+
+<script>
+
+let text="Will you go to prom with me, babyy pochii? 💗";
+let i=0;
+
+function typeWriter(){
+if(i < text.length){
+document.getElementById("message").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeWriter,50);
+}
+}
+
+typeWriter();
+
+let noSize=1;
+let noClicks=0;
+
+function noAnswer(){
+
+noClicks++;
+
+let messages=[
+"are you sure babyyy? 🥺",
+"hindii ba u naawaa sakin babyyy 😭",
+"puchuuuu would be saddd",
+"di mo na akoo loveeee💔",
+"pleasee babyyy"
+];
+
+alert(messages[Math.floor(Math.random()*messages.length)]);
+
+noSize -= 0.15;
+
+document.getElementById("no").style.transform=
+"scale("+noSize+")";
+
+if(noClicks>=3){
+document.getElementById("yes").style.transform=
+"scale("+(1 + noClicks*0.2)+")";
+}
+
+}
+
+function yesAnswer(){
+
+document.body.innerHTML="<h1 style='font-size:9vw;color:white;'>YAY!! SEE YOU AT PROM BABYY KO 💖</h1>";
+
+createConfetti();
+explodeHearts();
+
+}
+
+function createConfetti(){
+
+for(let i=0;i<150;i++){
+
+let confetti=document.createElement("div");
+confetti.className="confetti";
+
+confetti.style.left=Math.random()*100+"vw";
+
+confetti.style.background=
+"hsl("+Math.random()*360+",100%,60%)";
+
+confetti.style.animationDuration=
+(Math.random()*2+2)+"s";
+
+document.body.appendChild(confetti);
+
+}
+
+}
+
+function explodeHearts(){
+
+for(let i=0;i<60;i++){
+
+let heart=document.createElement("div");
+heart.className="explodeHeart";
+heart.innerHTML="❤️";
+
+let x=(Math.random()*600-300)+"px";
+let y=(Math.random()*600-300)+"px";
+
+heart.style.setProperty("--x",x);
+heart.style.setProperty("--y",y);
+
+heart.style.left="50%";
+heart.style.top="50%";
+
+document.body.appendChild(heart);
+
+}
+
+}
+
+function createHeart(){
+
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+15)+"px";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+
+}
+
+setInterval(createHeart,500);
+
+</script>
+
+</body>
+</html>
